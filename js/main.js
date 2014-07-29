@@ -6,9 +6,7 @@ var recordPlayerModel = {
     speedsAvailable: 2,
     powerOn: false,
     isRecordOn: false,
-    isSpinning: false,
-    isUSBCapable: true,
-    currentVolume: 0
+    isSpinning: false
 };
 
 var recordPlayerControls = {
@@ -27,76 +25,74 @@ var recordPlayerControls = {
         }
     },
 
-    RecordOn: function(element) {
-        if (recordPlayerModel.powerOn == false) {
-            view.displayMessage("You need to turn your record player on before you can play music!");
-        }
-        else {
-            recordPlayerModel.isRecordOn = true;
-            var target = event.currentTarget;
-            var id = target.id;
-            var currentRecord = recordsModel.getRecord(id);
-        }
+    RecordOn: function() {
+        var self = this;
+        return function(event) {
+            event.preventDefault();
+            if (recordPlayerModel.powerOn == false) {
+                view.displayMessage("You need to turn your record player on before you can play music!");
+            } else if (recordPlayerModel.isSpinning == true) {
+                view.displayMessage("Stop spinning your tuntable before you choose a new record.");
+            } else {
+                recordPlayerModel.isRecordOn = true;
+                var target = event.currentTarget;
+                var id = target.id;
+                self.currentRecord = recordsModel.getRecord(id);
+                view.displayMessage("You are ready to play ''" + self.currentRecord.title + "'' by " + self.currentRecord.artist + ". Start spinning your turntable!");
+            }
+        } 
     },
 
     startSpin: function() {
-        if (recordPlayerModel.powerOn == false) {
-            view.displayMessage("Turn on your record player first!");
-        }
-        if (recordPlayerModel.isRecordOn == false) {
-            view.displayMessage("You didn't choose a record yet!");
-        }
-        else if (recordPlayerModel.powerOn == true && recordPlayerModel.isRecordOn == true) {
-            view.displayMessage("Your turntable is now playing " + currentRecord + ".");
-            recordPlayerModel.isSpinning = true;
-            this.playMp3();
-        }
+        var self = this;
+            return function() {
+                if (recordPlayerModel.powerOn == false && recordPlayerModel.isRecordOn == false) {
+                    view.displayMessage("Turn on your record player on first!");
+                }
+                if (recordPlayerModel.powerOn == true && recordPlayerModel.isRecordOn == false) {
+                    view.displayMessage("You didn't choose a record yet!");
+                }
+                else if (recordPlayerModel.powerOn == true && recordPlayerModel.isRecordOn == true) {
+                    view.displayMessage("Your turntable is now playing ''" + self.currentRecord.title + "'' by " + self.currentRecord.artist + ".");
+                    recordPlayerModel.isSpinning = true;
+                    var audioElement = document.getElementById(self.currentRecord.audioId);
+                    self.playMp3(audioElement);
+                }
+            }
     },
 
-    playMp3: function() {
-        audioId.play();
+    playMp3: function(element) {
+        element.play();
     },
 
     stopSpin: function() {
-        if (recordPlayerModel.powerOn == false) {
-            view.displayMessage("Your record player is not on!");
-        }
-        if (recordPlayerModel.isSpinning == true) {
-            recordPlayerModel.isSpinning = false;
-            view.displayMessage("Your turntable stopped spinning.");
-        }
-        else if (recordPlayerModel.isSpinning == false && recordPlayerModel.powerOn == true) {
-            view.displayMessage("Your turntable is not spinning.");
-        }
-        pauseMp3();
+        var self = this;
+            return function() {
+                if (recordPlayerModel.powerOn == false) {
+                    view.displayMessage("Your record player is not on!");
+                }
+                if (recordPlayerModel.isSpinning == true) {
+                    recordPlayerModel.isSpinning = false;
+                    view.displayMessage("Your turntable stopped spinning.");
+                    audioElement = document.getElementById(self.currentRecord.audioId);
+                    self.pauseMp3(audioElement);
+                }
+                else if (recordPlayerModel.isSpinning == false && recordPlayerModel.powerOn == true) {
+                    view.displayMessage("Your turntable is not spinning.");
+                }
+            }
     },
 
-    pauseMp3: function() {
-        //something with .pause();
+    pauseMp3: function(element) {
+        element.pause();
     },
 
-    computerConnect: function() {
-        if (recordPlayerModel.isUSBCapable == false) {
-            view.displayMessage("Sorry, your record player is not USB compatible.")
-        }
-        if (recordPlayerModel.powerOn == false) {
-            view.displayMessage("Turn your record player on first!")
-        }
-        else if (recordPlayerModel.isUSBCapable == true && recordPlayerModel.powerOn == true) {
-            view.displayMessage("You are now connected to your computer to digitize music.");
-        }
-    },
-
-    volumeUp: function() {
-        recordPlayerModel.currentVolume = ++recordPlayerModel.currentVolume;
-        view.displayMessage("Volume is set to " + recordPlayerModel.currentVolume); 
-    },
-
-    volumeDown: function() {
-        recordPlayerModel.currentVolume = --recordPlayerModel.currentVolume;
-        view.displayMessage("Volume is set to " + recordPlayerModel.currentVolume);
-        if (recordPlayerModel.currentVolume <= 0) {
-            view.displayMessage("The volume is turned down all the way...turn it up!");
+    changeVolume: function() {
+        var self = this;
+        return function(event) {
+            var currentVolume = event.target.value;
+            var newVolume = volumeslider.value;
+            
         }
     },
 
@@ -105,6 +101,7 @@ var recordPlayerControls = {
     }
 
 };
+
 
 var view = {
     displayMessage: function(msg) {
@@ -123,10 +120,10 @@ var recordsModel = {
     ],
 
     getRecord: function(id) {
-           for (var i = 0; i < this.records.length; i++) {
-                if (id == this.records[i].id) {
-                    var record = this.records[i].title + " by " + this.records[i].artist;
-            } view.displayMessage("You are ready to play " + record + ". Start spinning that record!")
+        for (var i = 0; i < this.records.length; i++) {
+            if (id == this.records[i].id) {
+                return this.records[i];
+            } 
         }
     }
 
@@ -138,12 +135,14 @@ var onButton = document.getElementById("on");
 var offButton = document.getElementById("off");
 var startSpinButton = document.getElementById("start");
 var stopSpinButton = document.getElementById("stop");
-var usbButton = document.getElementById("usb");
 recordPlayerControls.onClickListeners(onButton, recordPlayerControls.turnOn);
 recordPlayerControls.onClickListeners(offButton, recordPlayerControls.turnOff);
-recordPlayerControls.onClickListeners(startSpinButton, recordPlayerControls.startSpin);
-recordPlayerControls.onClickListeners(stopSpinButton, recordPlayerControls.stopSpin);
-recordPlayerControls.onClickListeners(usbButton, recordPlayerControls.computerConnect);
+recordPlayerControls.onClickListeners(startSpinButton, recordPlayerControls.startSpin());
+recordPlayerControls.onClickListeners(stopSpinButton, recordPlayerControls.stopSpin());
+
+//SLIDING UI (VOLUME)
+var volumeslider = document.getElementById("volume");
+volumeslider.addEventListener("change", recordPlayerControls.changeVolume());
 
 //CHOOSING A RECORD (CLICKING ALBUM ART & LOADING TRACK)
 var chooseEagulls = document.getElementById("eagulls");
@@ -151,14 +150,28 @@ var chooseBlur = document.getElementById("blur");
 var choosePixies = document.getElementById("pixies");
 var chooseTheClash = document.getElementById("theClash");
 var chooseDrowners = document.getElementById("drowners");
-recordPlayerControls.onClickListeners(chooseEagulls, recordPlayerControls.RecordOn);
-recordPlayerControls.onClickListeners(chooseBlur, recordPlayerControls.RecordOn);
-recordPlayerControls.onClickListeners(choosePixies, recordPlayerControls.RecordOn);
-recordPlayerControls.onClickListeners(chooseTheClash, recordPlayerControls.RecordOn);
-recordPlayerControls.onClickListeners(chooseDrowners, recordPlayerControls.RecordOn);
+recordPlayerControls.onClickListeners(chooseEagulls, recordPlayerControls.RecordOn());
+recordPlayerControls.onClickListeners(chooseBlur, recordPlayerControls.RecordOn());
+recordPlayerControls.onClickListeners(choosePixies, recordPlayerControls.RecordOn());
+recordPlayerControls.onClickListeners(chooseTheClash, recordPlayerControls.RecordOn());
+recordPlayerControls.onClickListeners(chooseDrowners, recordPlayerControls.RecordOn());
 
-//PLAYING OR PAUSING RECORD
-var eagullsMp3 = document.getElementById("eagullsMp3");
-var blurMp3 = document.getElementById("blurMp3");
-var pixiesMp3 = document.getElementById("pixiesMp3");
-var theClashMp3 = document.getElementById("theClashMp3");
+
+//JQUERY FOR STICKY MESSAGE AREA
+$(function(){
+        var stickyMessage = $('#messageArea').offset().top;
+          
+        $(window).scroll(function(){
+                if( $(window).scrollTop() > stickyMessage ) {
+                        $('#messageArea').css({position: 'fixed', top: '0px'});
+                }
+                if( $(window).scrollTop() < stickyMessage ) {
+                        $('#messageArea').css({position: '', top: '0px'});
+                }
+        });
+});
+
+
+
+
+

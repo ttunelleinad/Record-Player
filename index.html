@@ -3,8 +3,6 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-
-<!-- test comment -->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,65 +32,67 @@
 
         <!-- Add your site or application content here -->
 
-    <div id="container">
+    <div id="container" class="group">
 
-    <div id="messageArea">Ready to play some tunes?! Turn the power on to get started.</div>
+    <div id="wrapper" class="group">
+        <div id="messageArea" class="group">Ready to play some tunes?! Turn the power on to get started.</div>
 
-    <div id="recordPlayer">
-    <img src="img/revolutionWithRecord.jpg">
-    </div>
+        <div id="recordPlayer" class="group">
+            <img src="img/revolutionWithRecord.jpg">
+        </div>
 
-    <div id="playerInfo">
-    <p>Brand: Crosley<br>
-    Model: Revolution<br>
-    Color: black and yellow<br>
-    Speeds: two (33 1/2 and 45 RPM)</p>
-        <div>
+        <div id="playerInfo" class="group">
+            Brand: Crosley<br>
+            Model: Revolution<br>
+            Color: black and yellow<br>
+            Speeds: two (33 1/2 and 45 RPM)
+        </div>
+
+        <div id="controls" class="group">
             <button type="submit" id="on">POWER ON</button>
             <button type="submit" id="off">POWER OFF</button>
-            <button type="submit" id="usb">USB CONNECT</button>
         </div>
-    </div><!--close playerInfo div-->
+    </div><!--close wrapper-->
 
-    <div id="albums">
+    <div id="albums" class="group">
+        <a href="#" id="eagulls">
+            <img src="img/eagulls.jpg" alt="Possessed single artwork">
+            <span class="caption">Choose this record</span>
+        </a>
+        <audio src="media/eagulls.mp3" type="audio/mp3" id="eagullsMp3"></audio>
+    
+        <a href="#" id="blur">
+            <img src="img/blur.jpg" alt="There's No Other Way single artwork">
+            <span class="caption">Choose this record</span>
+        </a>
+        <audio src="media/blur.mp3" type="audio/mp3" id="blurMp3"></audio>
 
-    <a href="#" id="eagulls">
-        <img src="img/eagulls.jpg" alt="Possessed single artwork">
-        <span class="caption">Choose this record</span>
-    </a>
-    <audio src="media/eagulls.mp3" type="audio/mp3" id="eagullsMp3"></audio>
+        <a href="#" id="pixies">
+            <img src="img/pixies.jpg" alt="Here Comes Your Man single artwork">
+            <span class="caption">Choose this record</span>
+        </a>
+        <audio src="media/pixies.mp3" type="audio/mp3" id="pixiesMp3"></audio>
 
-      <a href="#" id="blur">
-        <img src="img/blur.jpg" alt="There's No Other Way single artwork">
-        <span class="caption">Choose this record</span>
-    </a>
-    <audio src="media/blur.mp3" type="audio/mp3" id="blurMp3"></audio>
+        <a href="#" id ="theClash">
+            <img src="img/clash.jpg" alt="Train in Vain single artwork">
+            <span class="caption">Choose this record</span>
+        </a>
+        <audio src="media/theClash.mp3" type="audio/mp3" id="theClashMp3"></audio>
 
-    <a href="#" id="pixies">
-        <img src="img/pixies.jpg" alt="Here Comes Your Man single artwork">
-        <span class="caption">Choose this record</span>
-    </a>
-     <audio src="media/pixies.mp3" type="audio/mp3" id="pixiesMp3"></audio>
-
-    <a href="#" id ="theClash">
-        <img src="img/clash.jpg" alt="Train in Vain single artwork">
-        <span class="caption">Choose this record</span>
-    </a>
-    <audio src="media/theClash.mp3" type="audio/mp3" id="theClashMp3"></audio>
-
-    <a href="#" id="drowners">
-        <img src="img/drowners.jpg" alt="Luv, Hold Me Down single artwork">
-        <span class="caption">Choose this record</span>
-    </a>
-    <audio src="media/drowners.mp3" type="audio/mp3" id="drownersMp3"></audio>
-
+        <a href="#" id="drowners">
+            <img src="img/drowners.jpg" alt="Luv, Hold Me Down single artwork">
+            <span class="caption">Choose this record</span>
+        </a>
+        <audio src="media/drowners.mp3" type="audio/mp3" id="drownersMp3"></audio>
     </div><!--close albumArt div-->
 
-    <div id="spinControls">            
+    <div id="spinControls" class="group">            
         <button type="sumbit" id="start">START SPIN</button>
         <button type="sumbit" id="stop">STOP SPIN</button>
-        <label for "volume" id="volume">Volume: </label><input type="range" min="0" max="100" step="10"/>
-    </div>
+        <div id="volumeDiv" class="group">
+            <label for="volume">Volume</label><input id="volume" type="range" min="0" max="50" step="5"/></div>
+        </div>
+    </div><!--close spin controls-->
 
     </div><!--close container div-->
 
