@@ -131,7 +131,6 @@ recordPlayerControls.onClickListeners(offButton, recordPlayerControls.turnOff);
 recordPlayerControls.onClickListeners(startSpinButton, recordPlayerControls.startSpin());
 recordPlayerControls.onClickListeners(stopSpinButton, recordPlayerControls.stopSpin());
 
-
 //CHOOSING A RECORD (CLICKING ALBUM ART & LOADING TRACK)
 var chooseEagulls = document.getElementById("eagulls");
 var chooseBlur = document.getElementById("blur");
@@ -143,7 +142,6 @@ recordPlayerControls.onClickListeners(chooseBlur, recordPlayerControls.RecordOn(
 recordPlayerControls.onClickListeners(choosePixies, recordPlayerControls.RecordOn());
 recordPlayerControls.onClickListeners(chooseTheClash, recordPlayerControls.RecordOn());
 recordPlayerControls.onClickListeners(chooseDrowners, recordPlayerControls.RecordOn());
-
 
 //JQUERY FOR STICKY MESSAGE AREA
 $(function(){
