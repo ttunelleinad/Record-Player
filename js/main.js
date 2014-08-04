@@ -87,15 +87,6 @@ var recordPlayerControls = {
         element.pause();
     },
 
-    changeVolume: function() {
-        var self = this;
-        return function(event) {
-            var currentVolume = event.target.value;
-            var newVolume = volumeslider.value;
-            
-        }
-    },
-
     onClickListeners: function(element, listener) {
         element.onclick = listener;
     }
@@ -140,9 +131,6 @@ recordPlayerControls.onClickListeners(offButton, recordPlayerControls.turnOff);
 recordPlayerControls.onClickListeners(startSpinButton, recordPlayerControls.startSpin());
 recordPlayerControls.onClickListeners(stopSpinButton, recordPlayerControls.stopSpin());
 
-//SLIDING UI (VOLUME)
-var volumeslider = document.getElementById("volume");
-volumeslider.addEventListener("change", recordPlayerControls.changeVolume());
 
 //CHOOSING A RECORD (CLICKING ALBUM ART & LOADING TRACK)
 var chooseEagulls = document.getElementById("eagulls");

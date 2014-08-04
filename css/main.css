@@ -55,11 +55,6 @@ label {
     text-align: right;
 }
 
-label#volume {
-    width: auto;
-    margin-left: 5px;
-}
-
 #wrapper {
     margin-top: 110px;
 }
@@ -98,10 +93,6 @@ label#volume {
 #spinControls {
     text-align: center;
     margin: auto;
-}
-
-#volumeDiv {
-    display: inline-block;
 }
 
 #albums img {
@@ -145,7 +136,7 @@ a {
   clear: both;
 }
 
-/******CAPTION HOVER FOR LARGE SCREENS(DESKTOP) ONLY******/
+/**CAPTION HOVER FOR LARGE SCREENS(DESKTOP) ONLY**/
 @media only screen and (min-width: 960px) {
 
     a:hover .caption {
@@ -157,6 +148,14 @@ a {
         -moz-transition: all .5s linear;
         transition: all .5s linear;
     }​
+}
+
+/****SPACING FIX FOR VERY LARGE SCREENS******/
+@media only screen and (min-width: 1355px) {
+    
+    #playerInfo {
+        margin-right: 20%;
+    }
 }
 
 /*****SMALLER SCREENS(&TABLETS)*****/
@@ -193,10 +192,6 @@ a {
     #spinControls {
         margin: auto;
     }
-
-    #volumeDiv {
-        margin-left: 0;
-    }
 }
 
 @media only screen and (max-width: 783px) {
@@ -208,12 +203,8 @@ a {
 
 @media only screen and (max-width: 738px) {
 
-    #volumeDiv label {
-        width: 100px;
-    }
 
-    #spinControls {
-        
+    #spinControls {   
         margin: auto;
     }
 }
